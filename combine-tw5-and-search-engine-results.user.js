@@ -3,12 +3,12 @@
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
 // @version 0.3.1
 // @author bimlas
-// @supportURL https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
-// @downloadURL https://gitlab.com/bimlas/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
+// @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
+// @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
 // @icon https://tiddlywiki.com/favicon.ico
 // @namespace Violentmonkey Scripts
 // @match *://www.google.com/search*
-// @match *://*.bing.com/*
+// @match *://cn.bing.com/*
 // @match *://www.baidu.com/*
 // @match *://www.startpage.com/*
 // @match *://duckduckgo.com/*
@@ -29,7 +29,7 @@ const buildWikiFilter = function(query) {
 // NOTE: If you want to show results in the sidebar, change this option to
 // 'sidebar', but remember that the sidebar is not always visible (for example,
 // if the window is too narrow).
-const placementOfResults = 'main';
+const placementOfResults = 'sidebar';
 
 const searchEngineConfigs = {
   'www.google.com': {
