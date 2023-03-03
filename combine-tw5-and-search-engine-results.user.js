@@ -36,6 +36,7 @@ const searchEngineConfigs = {
     searchInputSelector: 'input[name=q]',
     searchResultsSelector: {
       main: '#center_col',
+      // better use id, so if it no exist, we can recreate one
       sidebar: '#rhs'
     }
   },
@@ -112,7 +113,16 @@ function getWikiTitle(wiki) {
 }
 
 function addToPage(text) {
-  const searchEngineResults = document.querySelector(searchEngine.searchResultsSelector[placementOfResults]);
+  let searchEngineResults = document.querySelector(searchEngine.searchResultsSelector[placementOfResults]);
+  // google remove the sidebar, we have to create one manually
+  if (searchEngineResults === null && placementOfResults === 'sidebar') {
+    const mainContentParent = document.querySelector('#center_col').parentElement;
+    const sidebarElement = document.createElement('div');
+    sidebarElement.id = searchEngine.searchResultsSelector[placementOfResults].replace('#', '');
+    mainContentParent.appendChild(sidebarElement);
+    searchEngineResults = sidebarElement;
+    console.log(searchEngineResults)
+  }
   const node = document.createElement('div');
   node.style.display = 'inline-flex';
   node.style.margin = '1em';
