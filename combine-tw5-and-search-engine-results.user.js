@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name TiddlyWiki5: Combine TW5 and search engine results
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
-// @version 1.1.0
+// @version 1.2.0
 // @author bimlas
 // @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
 // @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
@@ -148,6 +148,16 @@ function getWikiTitle(wiki) {
   });
 }
 
+let searchEngineResults = document.querySelector(searchEngine.searchResultsSelector[placementOfResults]);
+// google remove the sidebar, we have to create one manually
+if (searchEngineResults === null && placementOfResults === 'sidebar') {
+  const mainContentParent = document.querySelector('#center_col').parentElement;
+  const sidebarElement = document.createElement('div');
+  sidebarElement.id = searchEngine.searchResultsSelector[placementOfResults].replace('#', '');
+  mainContentParent.appendChild(sidebarElement);
+  searchEngineResults = sidebarElement;
+}
+
 let configButtonAdded = false;
 function makeConfigButton() {
   const button = document.createElement('button');
@@ -157,17 +167,12 @@ function makeConfigButton() {
   return button;
 }
 
+if (!configButtonAdded) {
+  searchEngineResults.prepend(makeConfigButton());
+  configButtonAdded = true;
+}
+
 function addToPage(text) {
-  let searchEngineResults = document.querySelector(searchEngine.searchResultsSelector[placementOfResults]);
-  // google remove the sidebar, we have to create one manually
-  if (searchEngineResults === null && placementOfResults === 'sidebar') {
-    const mainContentParent = document.querySelector('#center_col').parentElement;
-    const sidebarElement = document.createElement('div');
-    sidebarElement.id = searchEngine.searchResultsSelector[placementOfResults].replace('#', '');
-    mainContentParent.appendChild(sidebarElement);
-    searchEngineResults = sidebarElement;
-    console.log(searchEngineResults)
-  }
   const resultContainer = document.createElement('div');
   resultContainer.style.display = 'inline-flex';
   resultContainer.style.flexDirection = 'column';
@@ -175,10 +180,6 @@ function addToPage(text) {
   resultContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
   resultContainer.innerHTML = text;
   searchEngineResults.append(resultContainer);
-  if (!configButtonAdded) {
-    resultContainer.prepend(makeConfigButton());
-    configButtonAdded = true;
-  }
 }
 
 function makeHtmlListFromTiddlers(wiki, listOfTiddlers) {
