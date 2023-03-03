@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name TiddlyWiki5: Combine TW5 and search engine results
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
-// @version 1.0.0
+// @version 1.1.0
 // @author bimlas
 // @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
 // @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
@@ -20,10 +20,6 @@
 // READ THE DOCUMENTATION BEFORE TRYING TO USE THE SCRIPT!
 // https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
 
-const buildWikiFilter = function(query) {
-  return `[!is[shadow]!is[system]!field:calendarEntry[yes]search[${query}]]`;
-}
-
 GM_config.init(
 {
   'id': 'wikiConfig', // The id used for this instance of GM_config
@@ -31,16 +27,31 @@ GM_config.init(
   {
     'wikis': // This is the id of the field
     {
-      'label': 'Wiki List (separate by space)', // Appears next to field
-      'type': 'text', // Makes this setting a text field
+      'label': 'Wiki List (Each in a new line)', // Appears next to field
+      'type': 'textarea', // Makes this setting a text field
       'default': 'http://localhost:5212' // Default value if user doesn't change it
+    },
+    'searchFilter': {
+      'label': 'Search sub filter (You need to enable it, see https://tiddlywiki.com/#WebServer%20API%3A%20Get%20All%20Tiddlers ) (only search title if not enabled this way)',
+      'labelPos': 'above',
+      'type': 'textarea', // Makes this setting a text field
+      'default': '[!is[shadow]!is[system]!field:calendarEntry[yes]search[${query}]]' // Default value if user doesn't change it
     }
   }
 });
 
-// GM_config.open();
+const wikis = GM_config.get('wikis').split('\n').filter(Boolean);
+const searchFilter = GM_config.get('searchFilter');
 
-const wikis = GM_config.get('wikis').split(' ');
+const buildWikiFilter = function(query) {
+  const parts = searchFilter.split('${query}');
+  return `${parts[0]}${query}${parts[1]}`;
+}
+// if allow all filter is not enabled, use fallback filter
+// https://tiddlywiki.com/#WebServer%20API%3A%20Get%20All%20Tiddlers
+const buildWikiFilterFallback = function(query) {
+  return `[all[tiddlers]!is[system]sort[title]]`;
+}
 
 // NOTE: If you want to show results in the sidebar, change this option to
 // 'sidebar', but remember that the sidebar is not always visible (for example,
@@ -97,16 +108,25 @@ const searchEngine = searchEngineConfigs[document.domain];
 
 function fetchJSON(origin, url) {
   return new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
+    try {
+    GM.xmlHttpRequest({
       method: "GET",
       headers: {
         "Origin": origin,
       },
       url: url,
       onload: function(response) {
+        if (response.status !== 200) {
+          return reject()
+        }
         resolve(JSON.parse(response.responseText));
-      }
+      },
+      onerror: (error) => {console.error(error); reject(error)},
+      onabort: (error) => {console.error(error); reject(error)},
     });
+    } catch (error) {
+      console.error(error); reject(error)
+    }
   });
 }
 
@@ -128,6 +148,15 @@ function getWikiTitle(wiki) {
   });
 }
 
+let configButtonAdded = false;
+function makeConfigButton() {
+  const button = document.createElement('button');
+  button.innerText = "⚙️";
+  button.style = "background-color: rgba(255, 255, 255, 0.05);border: none;cursor: pointer;";
+  button.onclick = () => GM_config.open();
+  return button;
+}
+
 function addToPage(text) {
   let searchEngineResults = document.querySelector(searchEngine.searchResultsSelector[placementOfResults]);
   // google remove the sidebar, we have to create one manually
@@ -139,12 +168,17 @@ function addToPage(text) {
     searchEngineResults = sidebarElement;
     console.log(searchEngineResults)
   }
-  const node = document.createElement('div');
-  node.style.display = 'inline-flex';
-  node.style.margin = '1em';
-  node.style.backgroundColor = 'rgba(0, 0, 0, 0.05)';
-  node.innerHTML = text;
-  searchEngineResults.insertBefore(node, searchEngineResults.childNodes[0]);
+  const resultContainer = document.createElement('div');
+  resultContainer.style.display = 'inline-flex';
+  resultContainer.style.flexDirection = 'column';
+  resultContainer.style.margin = '1em';
+  resultContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+  resultContainer.innerHTML = text;
+  searchEngineResults.append(resultContainer);
+  if (!configButtonAdded) {
+    resultContainer.prepend(makeConfigButton());
+    configButtonAdded = true;
+  }
 }
 
 function makeHtmlListFromTiddlers(wiki, listOfTiddlers) {
@@ -160,7 +194,15 @@ let searchResults = '';
 wikis.forEach(wiki => {
   const url = `${wiki}/recipes/default/tiddlers.json?filter=${urlEncodedQuery}`;
   Promise.all([
-    fetchJSON(wiki, url),
+    fetchJSON(wiki, url).catch(() => {
+      const query = document.querySelector(searchEngine.searchInputSelector).value;
+      const urlEncodedQuery = encodeURIComponent(buildWikiFilterFallback(query));
+      const url = `${wiki}/recipes/default/tiddlers.json?filter=${urlEncodedQuery}`;
+      return fetchJSON(wiki, url).then(results => {
+        // sort manually, because can't sort on server using filter, user not allow it using https://tiddlywiki.com/#WebServer%20API%3A%20Get%20All%20Tiddlers
+        return results.filter(tiddler => tiddler.title.includes(query));
+      });
+    }),
     getWikiTitle(wiki)
   ])
   .then(([results, wikiTitle]) => {
