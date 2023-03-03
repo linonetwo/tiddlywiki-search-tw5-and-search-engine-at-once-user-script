@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name TiddlyWiki5: Combine TW5 and search engine results
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
-// @version 1.2.0
+// @version 1.2.1
 // @author bimlas
 // @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
 // @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
@@ -161,7 +161,7 @@ if (searchEngineResults === null && placementOfResults === 'sidebar') {
 let configButtonAdded = false;
 function makeConfigButton() {
   const button = document.createElement('button');
-  button.innerText = "⚙️";
+  button.innerText = "⚙️TW";
   button.style = "background-color: rgba(255, 255, 255, 0.05);border: none;cursor: pointer;";
   button.onclick = () => GM_config.open();
   return button;
