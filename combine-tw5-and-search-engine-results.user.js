@@ -8,6 +8,8 @@
 // @icon https://tiddlywiki.com/favicon.ico
 // @namespace Violentmonkey Scripts
 // @match *://www.google.com/search*
+// @match *://*.bing.com/*
+// @match *://www.baidu.com/*
 // @match *://www.startpage.com/*
 // @match *://duckduckgo.com/*
 // @match *://www.ecosia.org/search*
@@ -21,7 +23,7 @@ const wikis = [
   'http://localhost:5212',
 ];
 const buildWikiFilter = function(query) {
-  return `[!is[system]search[${query}]]`;
+  return `[!is[shadow]!is[system]!field:calendarEntry[yes]search[${query}]]`;
 }
 
 // NOTE: If you want to show results in the sidebar, change this option to
@@ -42,6 +44,13 @@ const searchEngineConfigs = {
     searchResultsSelector: {
       main: '#b_results',
       sidebar: '#b_context'
+    }
+  },
+  'www.baidu.com': {
+    searchInputSelector: 'input#kw',
+    searchResultsSelector: {
+      main: '#content_left',
+      sidebar: '#content_right'
     }
   },
   // StartPage changes its URL and website structure, so the script does not work in all cases
