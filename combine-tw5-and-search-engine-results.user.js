@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name TiddlyWiki5: Combine TW5 and search engine results
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
-// @version 0.3.1
+// @version 1.0.0
 // @author bimlas
 // @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
 // @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
 // @icon https://tiddlywiki.com/favicon.ico
 // @namespace Violentmonkey Scripts
+// @require https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @match *://www.google.com/search*
 // @match *://cn.bing.com/*
 // @match *://www.baidu.com/*
@@ -19,12 +20,27 @@
 // READ THE DOCUMENTATION BEFORE TRYING TO USE THE SCRIPT!
 // https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
 
-const wikis = [
-  'http://localhost:5212',
-];
 const buildWikiFilter = function(query) {
   return `[!is[shadow]!is[system]!field:calendarEntry[yes]search[${query}]]`;
 }
+
+GM_config.init(
+{
+  'id': 'wikiConfig', // The id used for this instance of GM_config
+  'fields': // Fields object
+  {
+    'wikis': // This is the id of the field
+    {
+      'label': 'Wiki List (separate by space)', // Appears next to field
+      'type': 'text', // Makes this setting a text field
+      'default': 'http://localhost:5212' // Default value if user doesn't change it
+    }
+  }
+});
+
+// GM_config.open();
+
+const wikis = GM_config.get('wikis').split(' ');
 
 // NOTE: If you want to show results in the sidebar, change this option to
 // 'sidebar', but remember that the sidebar is not always visible (for example,
