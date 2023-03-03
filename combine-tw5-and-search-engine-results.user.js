@@ -18,7 +18,7 @@
 // https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
 
 const wikis = [
-  'http://localhost:8080',
+  'http://localhost:5212',
 ];
 const buildWikiFilter = function(query) {
   return `[!is[system]search[${query}]]`;
@@ -35,6 +35,13 @@ const searchEngineConfigs = {
     searchResultsSelector: {
       main: '#center_col',
       sidebar: '#rhs'
+    }
+  },
+  'cn.bing.com': {
+    searchInputSelector: 'input#sb_form_q',
+    searchResultsSelector: {
+      main: '#b_results',
+      sidebar: '#b_context'
     }
   },
   // StartPage changes its URL and website structure, so the script does not work in all cases
