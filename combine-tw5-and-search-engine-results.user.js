@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name TiddlyWiki5: Combine TW5 and search engine results
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
-// @version 1.2.2
+// @version 1.2.3
 // @author bimlas + Lin Onetwo
 // @supportURL https://github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/issues
 // @downloadURL		https://raw.github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/master/combine-tw5-and-search-engine-results.user.js
@@ -15,6 +15,7 @@
 // @require https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @match *://www.google.com/search*
 // @match *://cn.bing.com/*
+// @match *://www.bing.com/*
 // @match *://www.baidu.com/*
 // @match *://www.startpage.com/*
 // @match *://duckduckgo.com/*
@@ -84,6 +85,13 @@ init.then(() => {
       }
     },
     'cn.bing.com': {
+      searchInputSelector: 'input#sb_form_q',
+      searchResultsSelector: {
+        main: '#b_results',
+        sidebar: '#b_context'
+      }
+    },
+    'www.bing.com': {
       searchInputSelector: 'input#sb_form_q',
       searchResultsSelector: {
         main: '#b_results',
