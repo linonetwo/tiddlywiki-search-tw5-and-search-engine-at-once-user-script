@@ -1,4 +1,4 @@
-= Userscript: Combine TiddlyWiki5 and search engine (Google) results
+# Userscript: Combine TiddlyWiki5 and search engine (Google) results
 
 Have you ever been looking for something on Google and when you found the
 answer, you wanted to make a note of it, did you realize that you already had
@@ -9,9 +9,9 @@ userscript with TiddlyWiki (at least 5.1.22 version) on Node.js.
 Because the script searches in multiple TiddlyWikis at once, it can also be
 used to *search in all your wikis*.
 
-* https://github.com/tiddly-gittly/userscript-search-tw5-and-search-engine-at-once (please star if you like it)
+* https://github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script (please star if you like it)
 
-== How to install?
+## How to install?
 
 * Install
   https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/[Greasemonkey] or
@@ -28,7 +28,7 @@ used to *search in all your wikis*.
 
 image::https://i.imgur.com/D7tZA8C.gif[screencast]
 
-== Supported search engines
+## Supported search engines
 
 * https://www.google.com/[Google]
 * https://www.startpage.com/[StartPage]
