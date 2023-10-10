@@ -19,7 +19,7 @@ used to *search in all your wikis*.
   (https://violentmonkey.github.io/[Violentmonkey],
   https://www.tampermonkey.net/[Tampermonkey]) to your browser
 * Add this script to it:
-  [https://github.com/tiddly-gittly/userscript-search-tw5-and-search-engine-at-once/raw/master/combine-tw5-and-search-engine-results.user.js](https://github.com/tiddly-gittly/userscript-search-tw5-and-search-engine-at-once/raw/master/combine-tw5-and-search-engine-results.user.js) (click open to install)
+  [OpenUserJS - TiddlyWiki5: Combine TW5 and search engine results](https://openuserjs.org/scripts/linonetwo/TiddlyWiki5_Combine_TW5_and_search_engine_results) (click install button)
 * Set up `wikis` in the config (don't forget to save the changes)
 * Start your Node based TiddlyWikis
 * *Enable particular filters in each of them!* See
@@ -30,7 +30,10 @@ image::https://i.imgur.com/D7tZA8C.gif[screencast]
 
 ## Supported search engines
 
-* https://www.google.com/[Google]
-* https://www.startpage.com/[StartPage]
-* https://duckduckgo.com/[DuckDuckGo]
-* https://www.ecosia.org/[Ecosia]
+* [Google](https://www.google.com/)
+* [StartPage](https://www.startpage.com/)
+* [DuckDuckGo](https://duckduckgo.com/)
+* [Ecosia](https://www.ecosia.org/)
+* [CN Bing](cn.bing.com)
+* [Bing](cn.bing.com)
+* [Baidu](www.baidu.com)
