@@ -2,7 +2,7 @@
 
 Have you ever been looking for something on Google and when you found the
 answer, you wanted to make a note of it, did you realize that you already had
-the answer in your https://tiddlywiki.com/[TiddlyWiki]? To avoid these
+the answer in your [TiddlyWiki](https://tiddlywiki.com/)? To avoid these
 situations by *integrating TiddlyWiki search results to Google* , use this
 userscript with TiddlyWiki (at least 5.1.22 version) on Node.js.
 
@@ -14,10 +14,10 @@ used to *search in all your wikis*.
 ## How to install?
 
 * Install
-  https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/[Greasemonkey] or
+  [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) or
   a compatible userscript-manager extension
-  (https://violentmonkey.github.io/[Violentmonkey],
-  https://www.tampermonkey.net/[Tampermonkey]) to your browser
+  ([Violentmonkey](https://violentmonkey.github.io/),
+  [Tampermonkey](https://www.tampermonkey.net/)) to your browser
 * Add this script to it:
   [OpenUserJS - TiddlyWiki5: Combine TW5 and search engine results](https://openuserjs.org/scripts/linonetwo/TiddlyWiki5_Combine_TW5_and_search_engine_results) (click install button)
 * Set up `wikis` in the config (don't forget to save the changes)
@@ -26,7 +26,7 @@ used to *search in all your wikis*.
   https://tiddlywiki.com/#WebServer%20API%3A%20Get%20All%20Tiddlers
 * Open your favourite search engine and start searching
 
-image::https://i.imgur.com/D7tZA8C.gif[screencast]
+![screencast](https://i.imgur.com/D7tZA8C.gif)
 
 ## Supported search engines
 
