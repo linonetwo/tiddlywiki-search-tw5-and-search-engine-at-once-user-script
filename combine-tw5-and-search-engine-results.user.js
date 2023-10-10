@@ -8,7 +8,10 @@
 // @updateURL		https://raw.github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/master/combine-tw5-and-search-engine-results.user.js
 // @icon https://tiddlywiki.com/favicon.ico
 // @namespace https://github.com/linonetwo
-// @license         MIT
+//
+// @license MIT
+//
+// @run-at			document-end
 // @require https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @match *://www.google.com/search*
 // @match *://cn.bing.com/*
