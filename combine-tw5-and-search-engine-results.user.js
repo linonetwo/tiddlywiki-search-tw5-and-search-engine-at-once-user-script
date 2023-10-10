@@ -3,10 +3,12 @@
 // @description Combine TiddlyWiki and your preferred search engine to find your own answers more easily
 // @version 1.2.2
 // @author bimlas + Lin Onetwo
-// @supportURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/issues
-// @downloadURL https://github.com/tiddly-gittly/userscript-combine-tw5-and-search-engine-results/raw/master/combine-tw5-and-search-engine-results.user.js
+// @supportURL https://github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/issues
+// @downloadURL		https://raw.github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/master/combine-tw5-and-search-engine-results.user.js
+// @updateURL		https://raw.github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script/master/combine-tw5-and-search-engine-results.user.js
 // @icon https://tiddlywiki.com/favicon.ico
-// @namespace Violentmonkey Scripts
+// @namespace https://github.com/linonetwo
+// @license         MIT
 // @require https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @match *://www.google.com/search*
 // @match *://cn.bing.com/*
@@ -20,7 +22,8 @@
 // ==/UserScript==
 
 // READ THE DOCUMENTATION BEFORE TRYING TO USE THE SCRIPT!
-// https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
+// https://github.com/linonetwo/tiddlywiki-search-tw5-and-search-engine-at-once-user-script
+// This is a fork of https://github.com/bimlas/userscript-combine-tw5-and-search-engine-results
 
 let gmc = new GM_config({
   'id': 'wikiConfig', // The id used for this instance of GM_config
